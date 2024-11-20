@@ -35,7 +35,7 @@
 </head>
 <body>
     <!-- Centered text -->
-    <div id="name">💣👽  тⒶａ𝕧є𝕋~  ✌✌</div>
+    <div id="name">꧁ঔৣ☬✞ ₮₳₳VɆ₮~ ✞☬ঔৣ꧂</div>
     <canvas id="particleCanvas"></canvas>
 
     <script>
@@ -57,18 +57,33 @@
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
-                this.size = Math.random() * 5 + 2; // Random size
-                this.speedX = Math.random() * 4 - 2; // Horizontal velocity
-                this.speedY = Math.random() * 4 - 2; // Vertical velocity
-                this.color = `hsl(${Math.random() * 360}, 1%, 50%)`; // Random color
+                this.size = Math.random() * 5 + 2; // Small random size between 2 and 7
+                this.speedX = Math.random() * 4 - 2; // Horizontal velocity between -2 and 2
+                this.speedY = Math.random() * 4 - 2; // Vertical velocity between -2 and 2
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
                 this.alpha = 1; // Initial opacity
             }
 
             update() {
+                // Move particle
                 this.x += this.speedX;
                 this.y += this.speedY;
+
+                // Bounce off left or right edges
+                if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+                    this.speedX *= -1;
+                }
+
+                // Bounce off top or bottom edges
+                if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+                    this.speedY *= -1;
+                }
+
+                // Optional: If you want particles to fade out over time, uncomment the following lines
+                /*
                 this.alpha -= 0.02; // Fade out
                 if (this.alpha <= 0) this.alpha = 0; // Ensure it doesn't go below 0
+                */
             }
 
             draw() {
@@ -77,6 +92,7 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.globalAlpha = 1; // Reset alpha for other drawings
             }
         }
 
@@ -86,7 +102,7 @@
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
 
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 300; i++) { // Increased from 30 to 300
                 particles.push(new Particle(x, y));
             }
         });
@@ -97,9 +113,13 @@
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update();
                 particles[i].draw();
+
+                // If particles are set to fade out, remove them when fully transparent
+                /*
                 if (particles[i].alpha <= 0) {
                     particles.splice(i, 1); // Remove faded particles
                 }
+                */
             }
             requestAnimationFrame(animate);
         }
