@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Little Black Page</title>
+    <title>Interactive Particles</title>
     <style>
         /* Make the page background black */
         body {
@@ -16,11 +16,95 @@
             color: white;
             font-size: 3em;
             font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #name {
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none; /* Let clicks pass through to the text */
         }
     </style>
 </head>
 <body>
     <!-- Centered text -->
-    <div>꧁ঔৣ☬✞ ₮₳₳VɆ₮~ ✞☬ঔৣ꧂</div>
+    <div id="name">💣👽  тⒶａ𝕧є𝕋~  ✌✌</div>
+    <canvas id="particleCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("particleCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Resize canvas on window resize
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+
+        // Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 2; // Random size
+                this.speedX = Math.random() * 4 - 2; // Horizontal velocity
+                this.speedY = Math.random() * 4 - 2; // Vertical velocity
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
+                this.alpha = 1; // Initial opacity
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= 0.02; // Fade out
+                if (this.alpha <= 0) this.alpha = 0; // Ensure it doesn't go below 0
+            }
+
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Create particles on click
+        document.getElementById("name").addEventListener("click", (event) => {
+            const rect = event.target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle(x, y));
+            }
+        });
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1); // Remove faded particles
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
 </body>
 </html>
