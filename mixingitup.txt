@@ -846,8 +846,7 @@ shares
 to
 fund
 for
-‘public
-good’
+public good
 Amelia
 Earhart
 researchers
@@ -1383,8 +1382,7 @@ shares
 to
 fund
 for
-‘public
-good’
+public good
 Amelia
 Earhart
 researchers
@@ -1832,8 +1830,7 @@ shares
 to
 fund
 for
-‘public
-good’
+public good
 Amelia
 Earhart
 researchers
