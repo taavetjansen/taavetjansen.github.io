@@ -398,8 +398,7 @@ shares
 to
 fund
 for
-‘public
-good’
+public good
 Amelia
 Earhart
 researchers
@@ -570,7 +569,6 @@ renunciation
 of
 delusion
 holding
-
 wheel
 and
 bell
@@ -1557,7 +1555,6 @@ renunciation
 of
 delusion
 holding
-
 wheel
 and
 bell
